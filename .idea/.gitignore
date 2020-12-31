@@ -2,3 +2,6 @@
 /shelf/
 /workspace.xml
 ../main.py
+../build
+../dist
+../ds.egg-info
