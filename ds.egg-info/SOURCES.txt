@@ -1,3 +1,4 @@
+README.md
 setup.py
 ds/__init__.py
 ds.egg-info/PKG-INFO

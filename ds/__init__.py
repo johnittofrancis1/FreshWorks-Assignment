@@ -6,6 +6,9 @@ import threading
 
 
 class DataStore:
+    """
+    DataStore class for methods to handle CRD (Create, Read, Delete) operations in a file-based datastore
+    """
 
     __instance = None
 
@@ -22,11 +25,29 @@ class DataStore:
 
     @staticmethod
     def connect(file_path=os.getcwd()+"\\db.json"):
+        """
+        Connects to a file datastore
+            :parameter
+            file_path: String, optional
+                File Path for the datastore
+            :returns
+            instance of the DataStore class
+        """
         if DataStore.__instance is None:
             DataStore(file_path)
         return DataStore.__instance
 
     def create(self, key, value, time_to_live=-1):
+        """
+        Creates a key-value pair in the datastore with optional time-to-live feature
+            :parameter
+            key: String,
+            value: JSON object,
+            time_to_live: integer, optional
+                seconds in integer
+            :returns
+            None
+        """
         while self._global_lock.locked():
             continue
         v = {"val": value}
@@ -53,6 +74,13 @@ class DataStore:
         self._global_lock.release()
 
     def read(self, key):
+        """
+        Gives a value given a key that is already stored in the datastore
+            :parameter
+            key: String
+            :returns
+            JSON object
+        """
         while self._global_lock.locked():
             continue
         self._global_lock.acquire()
@@ -78,6 +106,13 @@ class DataStore:
         return ans
 
     def delete(self, key):
+        """
+        Deletes a key-value pair given a key that is already stored in the datastore
+            :parameter
+            key: String
+            :returns
+            JSON object: deleted key-value pair
+        """
         while self._global_lock.locked():
             continue
         self._global_lock.acquire()
